@@ -8,6 +8,7 @@ public class UnitTests
 {
     /*
         Run commands in ..\..\..\Files :
+        'docker pull mongo'
         'docker-compose up'
     */
 

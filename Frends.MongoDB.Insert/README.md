@@ -19,7 +19,7 @@ Rebuild the project
 
 Run tests
  
-Run commands `docker-compose up` in ..\..\..\Files
+Run commands `docker compose pull mongo` in ..\..\..\Files
 
 `dotnet test`
 

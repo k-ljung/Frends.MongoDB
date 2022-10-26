@@ -7,14 +7,12 @@ namespace Frends.MongoDB.Insert.Tests;
 public class UnitTests
 {
     /*
-        Run commands in ..\..\..\Files :
-        'docker pull mongo'
-        'docker-compose up'
+        Run command 'docker-compose up' in ..\..\..\Files
     */
 
     private static readonly Connection _connection = new()
     {
-        ConnectionString = Environment.GetEnvironmentVariable("HiQ_MongoDBTest_ConnString"),
+        ConnectionString = "mongodb://admin:Salakala@localhost:27017/?authSource=admin",
         Database = "testdb",
         CollectionName = "testcoll",
     };

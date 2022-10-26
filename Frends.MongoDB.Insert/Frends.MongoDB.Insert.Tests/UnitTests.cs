@@ -7,7 +7,7 @@ namespace Frends.MongoDB.Insert.Tests;
 public class UnitTests
 {
     /*
-        Run command 'docker-compose up' in ..\..\..\Files
+        Run command 'docker-compose up' in \Frends.MongoDB.Insert.Tests\Files\
     */
 
     private static readonly Connection _connection = new()
@@ -62,7 +62,7 @@ public class UnitTests
         {
             InputType = InputType.File,
             Document = null,
-            File = @"..\..\..\Files\testdata.json",
+            File = "..//..//..//Files//testdata.json",
         };
 
         var result = await MongoDB.Insert(_input, _connection, default);

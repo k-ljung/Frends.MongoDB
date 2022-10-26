@@ -2,7 +2,7 @@
 services:
   mongo:
     container_name: mongo
-    image: mongo:latest
+    image: mongo:3
     environment:
       - AUTH=yes
       - MONGO_INITDB_ROOT_USERNAME=admin

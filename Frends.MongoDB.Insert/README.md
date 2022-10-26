@@ -1,5 +1,5 @@
 # Frends.MongoDB.Insert
-Frends task for MongoDB insert operation.
+Frends Task for MongoDB insert operation.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 [![Build](https://github.com/FrendsPlatform/Frends.MongoDB/actions/workflows/Insert_build_and_test_on_main.yml/badge.svg)](https://github.com/FrendsPlatform/Frends.MongoDB/actions)
@@ -19,7 +19,7 @@ Rebuild the project
 
 Run tests
  
-Run commands `docker-compose up` in ..\..\..\Files
+Run commands `docker-compose up -d` in ..\..\..\Files
 
 `dotnet test`
 

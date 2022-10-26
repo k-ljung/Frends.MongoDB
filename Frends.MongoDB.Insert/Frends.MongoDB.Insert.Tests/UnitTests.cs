@@ -7,7 +7,7 @@ namespace Frends.MongoDB.Insert.Tests;
 public class UnitTests
 {
     /*
-        Run command 'docker-compose up' in \Frends.MongoDB.Insert.Tests\Files\
+        Run command 'docker-compose up -d' in \Frends.MongoDB.Insert.Tests\Files\
     */
 
     private static readonly Connection _connection = new()

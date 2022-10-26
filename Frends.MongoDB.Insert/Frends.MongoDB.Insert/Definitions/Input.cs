@@ -14,6 +14,7 @@ public class Input
     /// InputType.Documents: JSON string(s) to be processed.
     /// InputType.File: File containing data in JSON format.
     /// </summary>
+    /// <example>InputType.Document</example>
     [DefaultValue(InputType.Document)]
     public InputType InputType { get; set; }
 

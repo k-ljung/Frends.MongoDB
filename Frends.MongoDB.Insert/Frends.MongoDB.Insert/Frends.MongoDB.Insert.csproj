@@ -10,7 +10,7 @@
 	<PackageTags>Frends</PackageTags>
 	<PackageLicenseExpression>MIT</PackageLicenseExpression>
 	<GenerateDocumentationFile>true</GenerateDocumentationFile>
-	<Description>Frends task for MongoDB insert operation.</Description>
+	<Description>Frends Task for MongoDB insert operation.</Description>
 	<PackageProjectUrl>https://frends.com/</PackageProjectUrl>
 	<RepositoryUrl>https://github.com/FrendsPlatform/Frends.MongoDB</RepositoryUrl>
   </PropertyGroup>

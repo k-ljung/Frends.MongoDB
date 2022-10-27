@@ -3,7 +3,7 @@
 namespace Frends.MongoDB.Insert.Definitions;
 
 /// <summary>
-/// Input parameters.
+/// Connection parameters.
 /// </summary>
 public class Connection
 {

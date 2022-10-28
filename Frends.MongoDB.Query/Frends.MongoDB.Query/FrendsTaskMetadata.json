@@ -1,0 +1,7 @@
+{
+  "Tasks": [
+    {
+      "TaskMethod": "Frends.MongoDB.Query.MongoDB.Query"
+    }
+  ]
+}

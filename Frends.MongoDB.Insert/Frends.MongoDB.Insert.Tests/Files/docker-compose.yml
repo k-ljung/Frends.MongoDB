@@ -1,7 +1,6 @@
 ﻿version: '3'
 services:
   mongo:
-    container_name: mongo
     image: mongo:3
     environment:
       - AUTH=yes

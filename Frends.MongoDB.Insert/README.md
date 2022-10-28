@@ -19,7 +19,7 @@ Rebuild the project
 
 Run tests
  
-Run commands `docker-compose up -d` in ..\..\..\Files
+Run command `docker-compose up -d` in \Frends.MongoDB.Insert.Tests\Files\
 
 `dotnet test`
 

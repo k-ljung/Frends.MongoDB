@@ -3,7 +3,7 @@ name: Insert build test
 on:
   push:
     branches-ignore: 
-      - main
+      - master
     paths:
       - 'Frends.MongoDB.Insert/**'
   workflow_dispatch:

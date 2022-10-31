@@ -8,7 +8,7 @@ namespace Frends.MongoDB.Query.Tests;
 [TestClass]
 public class UnitTests
 {
-    /*
+    /* 
         Run command 'docker-compose up -d' in \Frends.MongoDB.Query.Tests\Files\
     */
 

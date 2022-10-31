@@ -3,7 +3,7 @@ name: Query build test
 on:
   push:
     branches-ignore: 
-      - main
+      - master
     paths:
       - 'Frends.MongoDB.Query/**'
   workflow_dispatch:

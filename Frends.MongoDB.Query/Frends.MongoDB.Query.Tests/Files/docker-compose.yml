@@ -1,0 +1,12 @@
+﻿version: '3'
+services:
+  mongo:
+    image: mongo:3
+    environment:
+      - AUTH=yes
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=Salakala
+    volumes:
+      - ${MONGO_HOST_DATA}/db:/data/db
+    ports:
+      - "27017:27017"

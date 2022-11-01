@@ -18,7 +18,7 @@ public class Input
     /// <summary>
     /// Input type.
     /// </summary>
-    /// <example>InputType.Document</example>
+    /// <example>InputType.Filter</example>
     [DefaultValue(InputType.Filter)]
     public InputType InputType { get; set; }
 

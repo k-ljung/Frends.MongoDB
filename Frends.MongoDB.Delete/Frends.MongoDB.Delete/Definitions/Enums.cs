@@ -32,7 +32,7 @@ public enum InputType
     Filters,
 
     /// <summary>
-    /// The file containing filter(s). Each line is a single filter and will be processed one by one.
+    /// The file containing filter.
     /// </summary>
     File
 }

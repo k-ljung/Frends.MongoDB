@@ -6,6 +6,7 @@ Frends Task for MongoDB related operations.
 
 - [Frends.MongoDB.Insert](Frends.MongoDB.Insert/README.md)
 - [Frends.MongoDB.Query](Frends.MongoDB.Query/README.md)
+- [Frends.MongoDB.Update](Frends.MongoDB.Update/README.md)
 - [Frends.MongoDB.Delete](Frends.MongoDB.Delete/README.md)
 
 # Contributing

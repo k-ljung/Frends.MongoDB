@@ -119,7 +119,7 @@ public class UnitTests
         };
 
         var result = await MongoDB.Delete(_input, _connection, default);
-        Assert.IsTrue(result.Success.Equals(true) && result.Count == 3);
+        Assert.IsTrue(result.Success && result.Count == 3);
     }
 
     [TestMethod]

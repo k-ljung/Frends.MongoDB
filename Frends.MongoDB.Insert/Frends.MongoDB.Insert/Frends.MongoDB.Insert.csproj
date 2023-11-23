@@ -2,7 +2,7 @@
 
   <PropertyGroup>
 	<TargetFrameworks>net6.0</TargetFrameworks>
-	<Version>1.0.0</Version>
+	<Version>1.0.1</Version>
 	<Authors>Frends</Authors>
 	<Copyright>Frends</Copyright>
 	<Company>Frends</Company>
@@ -14,15 +14,38 @@
 	<PackageProjectUrl>https://frends.com/</PackageProjectUrl>
 	<RepositoryUrl>https://github.com/FrendsPlatform/Frends.MongoDB</RepositoryUrl>
   </PropertyGroup>
-	
-  <ItemGroup>
-	  <None Include="FrendsTaskMetadata.json" Pack="true" PackagePath="/">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-  </ItemGroup>
-	
-  <ItemGroup>
-    <PackageReference Include="MongoDB.Bson" Version="2.18.0" />
-    <PackageReference Include="MongoDB.Driver" Version="2.18.0" />
-  </ItemGroup>
+
+	<ItemGroup>
+		<None Include="FrendsTaskMetadata.json" Pack="true" PackagePath="/">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="lib\MongoDB.Driver.dll" Pack="true" PackagePath="/lib/$(TargetFrameworks)">
+			<CopyToOutputDirectory>true</CopyToOutputDirectory>
+		</None>
+		<None Include="lib\MongoDB.Driver.Core.dll" Pack="true" PackagePath="/lib/$(TargetFrameworks)">
+			<CopyToOutputDirectory>true</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="MongoDB.Bson" Version="2.22.0" />
+		<PackageReference Include="MongoDB.Libmongocrypt" Version="1.8.0" PrivateAssets="true" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.0" />
+		<PackageReference Include="SharpCompress" Version="0.34.2" />
+		<PackageReference Include="Snappier" Version="1.1.2" />
+		<PackageReference Include="System.Buffers" Version="4.5.1" />
+		<PackageReference Include="ZstdSharp.Port" Version="0.7.3" />
+		<PackageReference Include="AWSSDK.SecurityToken" Version="3.7.300.7" />
+		<PackageReference Include="DnsClient" Version="1.7.0" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Reference Include="MongoDB.Driver" Version="2.22.0">
+			<HintPath>lib\MongoDB.Driver.dll</HintPath>
+		</Reference>
+		<Reference Include="MongoDB.Driver.Core" Version="2.22.0">
+			<HintPath>lib\MongoDB.Driver.Core.dll</HintPath>
+		</Reference>
+	</ItemGroup>
 </Project>

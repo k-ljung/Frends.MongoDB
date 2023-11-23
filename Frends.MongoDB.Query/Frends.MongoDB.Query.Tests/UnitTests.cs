@@ -75,6 +75,32 @@ public class UnitTests
         Assert.IsTrue(result.Data.Count == 0);
     }
 
+    [TestMethod]
+    public void Test_EmptyQuery()
+    {
+        var ex = Assert.ThrowsException<Exception>(() => MongoDB.Query(new Input { Filter = "" }, _connection, default));
+        Assert.AreEqual("Query error: Filter can't be null.", ex.Message);
+    }
+
+    [TestMethod]
+    public void Test_InvalidConnectionString()
+    {
+        var input = new Input()
+        {
+            Filter = "{'not':'found'}",
+        };
+
+        var connection = new Connection
+        {
+            ConnectionString = "mongodb://admin:Incorrect@localhost:27017/?authSource=invalid",
+            CollectionName = _connection.CollectionName,
+            Database = _connection.Database,
+        };
+
+        var ex = Assert.ThrowsException<Exception>(() => MongoDB.Query(input, connection, default));
+        Assert.IsTrue(ex.Message.StartsWith("Query error: MongoDB.Driver.MongoAuthenticationException: Unable to authenticate using sasl protocol mechanism SCRAM-SHA-1."));
+    }
+
     private void InsertTestData()
     {
         try

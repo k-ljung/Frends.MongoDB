@@ -2,7 +2,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Frends.MongoDB.Update.Definitions;
 using MongoDB.Bson;
 using MongoDB.Driver;
-using System;
 
 namespace Frends.MongoDB.Update.Tests;
 
@@ -51,8 +50,9 @@ public class UnitTests
         };
 
         var result = await MongoDB.Update(_input, _connection, default);
-        Assert.IsTrue(result.Success.Equals(true) && result.Count == 0);
-        Assert.IsTrue(GetDocuments("update").Equals(false));
+        Assert.IsTrue(result.Success);
+        Assert.AreEqual(0, result.Count);
+        Assert.IsFalse(GetDocuments("update"));
     }
 
     [TestMethod]
@@ -69,8 +69,9 @@ public class UnitTests
         };
 
         var result = await MongoDB.Update(_input, _connection, default);
-        Assert.IsTrue(result.Success.Equals(true) && result.Count == 1);
-        Assert.IsTrue(GetDocuments("update").Equals(true));
+        Assert.IsTrue(result.Success);
+        Assert.AreEqual(0, result.Count);
+        Assert.IsTrue(GetDocuments("update"));
     }
 
     [TestMethod]
@@ -87,8 +88,9 @@ public class UnitTests
         };
 
         var result = await MongoDB.Update(_input, _connection, default);
-        Assert.IsTrue(result.Success.Equals(true) && result.Count == 2);
-        Assert.IsTrue(GetDocuments("update").Equals(true));
+        Assert.IsTrue(result.Success);
+        Assert.AreEqual(2, result.Count);
+        Assert.IsTrue(GetDocuments("update"));
     }
 
     [TestMethod]
@@ -108,8 +110,9 @@ public class UnitTests
         };
 
         var result = await MongoDB.Update(_input, _connection, default);
-        Assert.IsTrue(result.Success.Equals(true) && result.Count == 2);
-        Assert.IsTrue(GetDocuments("update").Equals(true));
+        Assert.IsTrue(result.Success);
+        Assert.AreEqual(2, result.Count);
+        Assert.IsTrue(GetDocuments("update"));
     }
 
     [TestMethod]
@@ -129,8 +132,9 @@ public class UnitTests
         };
 
         var result = await MongoDB.Update(_input, _connection, default);
-        Assert.IsTrue(result.Success.Equals(true) && result.Count == 3);
-        Assert.IsTrue(GetDocuments("update").Equals(true));
+        Assert.IsTrue(result.Success);
+        Assert.AreEqual(3, result.Count);
+        Assert.IsTrue(GetDocuments("update"));
     }
 
     [TestMethod]
@@ -147,8 +151,9 @@ public class UnitTests
         };
 
         var result = await MongoDB.Update(_input, _connection, default);
-        Assert.IsTrue(result.Success.Equals(true) && result.Count == 1);
-        Assert.IsTrue(GetDocuments("update").Equals(true));
+        Assert.IsTrue(result.Success);
+        Assert.AreEqual(1, result.Count);
+        Assert.IsTrue(GetDocuments("update"));
     }
 
     [TestMethod]
@@ -165,8 +170,9 @@ public class UnitTests
         };
 
         var result = await MongoDB.Update(_input, _connection, default);
-        Assert.IsTrue(result.Success.Equals(true) && result.Count == 2);
-        Assert.IsTrue(GetDocuments("update").Equals(true));
+        Assert.IsTrue(result.Success);
+        Assert.AreEqual(2, result.Count);
+        Assert.IsTrue(GetDocuments("update"));
     }
 
     [TestMethod]

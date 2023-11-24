@@ -12,7 +12,7 @@ jobs:
   build:
     uses: FrendsPlatform/FrendsTasks/.github/workflows/linux_build_main.yml@main
     with:
-      workdir: Frends.MongoDB.Insert
+      workdir: Frends.MongoDB.Update
       prebuild_command: docker-compose -f ./Frends.MongoDB.Update.Tests/Files/docker-compose.yml up -d
     secrets:
       badge_service_api_key: ${{ secrets.BADGE_SERVICE_API_KEY }}

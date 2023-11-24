@@ -45,8 +45,8 @@ public class UnitTests
         };
 
         var result = MongoDB.Query(_input, _connection, default);
-        Assert.IsTrue(result.Success.Equals(true));
-        Assert.IsTrue(result.Data.Count == 2);
+        Assert.IsTrue(result.Success);
+        Assert.AreEqual(2, result.Data.Count);
     }
 
     [TestMethod]
@@ -58,8 +58,8 @@ public class UnitTests
         };
 
         var result = MongoDB.Query(_input, _connection, default);
-        Assert.IsTrue(result.Success.Equals(true));
-        Assert.IsTrue(result.Data.Count == 1);
+        Assert.IsTrue(result.Success);
+        Assert.AreEqual(1, result.Data.Count);
     }
 
     [TestMethod]
@@ -71,8 +71,8 @@ public class UnitTests
         };
 
         var result = MongoDB.Query(_input, _connection, default);
-        Assert.IsTrue(result.Success.Equals(true));
-        Assert.IsTrue(result.Data.Count == 0);
+        Assert.IsTrue(result.Success);
+        Assert.AreEqual(0, result.Data.Count);
     }
 
     [TestMethod]

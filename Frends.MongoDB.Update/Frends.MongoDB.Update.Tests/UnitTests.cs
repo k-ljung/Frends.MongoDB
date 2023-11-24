@@ -2,7 +2,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Frends.MongoDB.Update.Definitions;
 using MongoDB.Bson;
 using MongoDB.Driver;
-using System;
 
 namespace Frends.MongoDB.Update.Tests;
 
@@ -51,8 +50,9 @@ public class UnitTests
         };
 
         var result = await MongoDB.Update(_input, _connection, default);
-        Assert.IsTrue(result.Success.Equals(true) && result.Count == 0);
-        Assert.IsTrue(GetDocuments("update").Equals(false));
+        Assert.IsTrue(result.Success);
+        Assert.AreEqual(0, result.Count);
+        Assert.IsFalse(GetDocuments("update"));
     }
 
     [TestMethod]
@@ -69,8 +69,9 @@ public class UnitTests
         };
 
         var result = await MongoDB.Update(_input, _connection, default);
-        Assert.IsTrue(result.Success.Equals(true) && result.Count == 1);
-        Assert.IsTrue(GetDocuments("update").Equals(true));
+        Assert.IsTrue(result.Success);
+        Assert.AreEqual(1, result.Count);
+        Assert.IsTrue(GetDocuments("update"));
     }
 
     [TestMethod]
@@ -87,8 +88,9 @@ public class UnitTests
         };
 
         var result = await MongoDB.Update(_input, _connection, default);
-        Assert.IsTrue(result.Success.Equals(true) && result.Count == 2);
-        Assert.IsTrue(GetDocuments("update").Equals(true));
+        Assert.IsTrue(result.Success);
+        Assert.AreEqual(2, result.Count);
+        Assert.IsTrue(GetDocuments("update"));
     }
 
     [TestMethod]
@@ -108,8 +110,9 @@ public class UnitTests
         };
 
         var result = await MongoDB.Update(_input, _connection, default);
-        Assert.IsTrue(result.Success.Equals(true) && result.Count == 2);
-        Assert.IsTrue(GetDocuments("update").Equals(true));
+        Assert.IsTrue(result.Success);
+        Assert.AreEqual(2, result.Count);
+        Assert.IsTrue(GetDocuments("update"));
     }
 
     [TestMethod]
@@ -129,8 +132,9 @@ public class UnitTests
         };
 
         var result = await MongoDB.Update(_input, _connection, default);
-        Assert.IsTrue(result.Success.Equals(true) && result.Count == 3);
-        Assert.IsTrue(GetDocuments("update").Equals(true));
+        Assert.IsTrue(result.Success);
+        Assert.AreEqual(3, result.Count);
+        Assert.IsTrue(GetDocuments("update"));
     }
 
     [TestMethod]
@@ -147,8 +151,9 @@ public class UnitTests
         };
 
         var result = await MongoDB.Update(_input, _connection, default);
-        Assert.IsTrue(result.Success.Equals(true) && result.Count == 1);
-        Assert.IsTrue(GetDocuments("update").Equals(true));
+        Assert.IsTrue(result.Success);
+        Assert.AreEqual(1, result.Count);
+        Assert.IsTrue(GetDocuments("update"));
     }
 
     [TestMethod]
@@ -165,8 +170,33 @@ public class UnitTests
         };
 
         var result = await MongoDB.Update(_input, _connection, default);
-        Assert.IsTrue(result.Success.Equals(true) && result.Count == 2);
-        Assert.IsTrue(GetDocuments("update").Equals(true));
+        Assert.IsTrue(result.Success);
+        Assert.AreEqual(2, result.Count);
+        Assert.IsTrue(GetDocuments("update"));
+    }
+
+    [TestMethod]
+    public void Test_InvalidConnectionString()
+    {
+        var _input = new Input()
+        {
+            InputType = InputType.File,
+            UpdateOptions = Definitions.UpdateOptions.UpdateMany,
+            Filter = null,
+            Filters = null,
+            File = "..//..//..//Files//testdata.json",
+            UpdateString = "{$set: {foo:'update'}}"
+        };
+
+        var connection = new Connection
+        {
+            ConnectionString = "mongodb://admin:Incorrect@localhost:27017/?authSource=invalid",
+            CollectionName = _connection.CollectionName,
+            Database = _connection.Database,
+        };
+
+        var ex = Assert.ThrowsExceptionAsync<Exception>(async () => await MongoDB.Update(_input, connection, default));
+        Assert.IsTrue(ex.Result.Message.StartsWith("Update error: System.Exception: UpdateOperation error: MongoDB.Driver.MongoAuthenticationException: Unable to authenticate using sasl protocol mechanism SCRAM-SHA-1."));
     }
 
     private void InsertTestData()

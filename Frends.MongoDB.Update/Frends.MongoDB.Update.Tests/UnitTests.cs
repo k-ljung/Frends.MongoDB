@@ -8,9 +8,9 @@ namespace Frends.MongoDB.Update.Tests;
 [TestClass]
 public class UnitTests
 {
-    /* 
-        Run command 'docker-compose up -d' in \Frends.MongoDB.Update.Tests\Files\
-    */
+    /// <summary>
+    /// Run command 'docker-compose up -d' in \Frends.MongoDB.Update.Tests\Files\
+    /// </summary>
 
     private static readonly Connection _connection = new()
     {

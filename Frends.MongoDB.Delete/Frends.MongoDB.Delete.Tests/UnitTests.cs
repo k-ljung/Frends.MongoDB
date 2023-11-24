@@ -49,7 +49,8 @@ public class UnitTests
         };
 
         var result = await MongoDB.Delete(_input, _connection, default);
-        Assert.IsTrue(result.Success.Equals(true) && result.Count == 0);
+        Assert.IsTrue(result.Success);
+        Assert.AreEqual(0, result.Count);
     }
 
     [TestMethod]
@@ -65,7 +66,8 @@ public class UnitTests
         };
 
         var result = await MongoDB.Delete(_input, _connection, default);
-        Assert.IsTrue(result.Success.Equals(true) && result.Count == 1);
+        Assert.IsTrue(result.Success);
+        Assert.AreEqual(1, result.Count);
     }
 
     [TestMethod]
@@ -81,7 +83,8 @@ public class UnitTests
         };
 
         var result = await MongoDB.Delete(_input, _connection, default);
-        Assert.IsTrue(result.Success.Equals(true) && result.Count == 2);
+        Assert.IsTrue(result.Success);
+        Assert.AreEqual(2, result.Count);
     }
 
     [TestMethod]
@@ -100,7 +103,8 @@ public class UnitTests
         };
 
         var result = await MongoDB.Delete(_input, _connection, default);
-        Assert.IsTrue(result.Success.Equals(true) && result.Count == 2);
+        Assert.IsTrue(result.Success);
+        Assert.AreEqual(2, result.Count);
     }
 
     [TestMethod]
@@ -119,7 +123,8 @@ public class UnitTests
         };
 
         var result = await MongoDB.Delete(_input, _connection, default);
-        Assert.IsTrue(result.Success && result.Count == 3);
+        Assert.IsTrue(result.Success);
+        Assert.AreEqual(3, result.Count);
     }
 
     [TestMethod]
@@ -135,7 +140,8 @@ public class UnitTests
         };
 
         var result = await MongoDB.Delete(_input, _connection, default);
-        Assert.IsTrue(result.Success.Equals(true) && result.Count == 1);
+        Assert.IsTrue(result.Success);
+        Assert.AreEqual(1, result.Count);
     }
 
     [TestMethod]
@@ -151,7 +157,8 @@ public class UnitTests
         };
 
         var result = await MongoDB.Delete(_input, _connection, default);
-        Assert.IsTrue(result.Success.Equals(true) && result.Count == 2);
+        Assert.IsTrue(result.Success);
+        Assert.AreEqual(2, result.Count);
     }
 
     [TestMethod]

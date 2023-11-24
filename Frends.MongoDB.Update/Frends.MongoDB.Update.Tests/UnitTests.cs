@@ -70,7 +70,7 @@ public class UnitTests
 
         var result = await MongoDB.Update(_input, _connection, default);
         Assert.IsTrue(result.Success);
-        Assert.AreEqual(0, result.Count);
+        Assert.AreEqual(1, result.Count);
         Assert.IsTrue(GetDocuments("update"));
     }
 

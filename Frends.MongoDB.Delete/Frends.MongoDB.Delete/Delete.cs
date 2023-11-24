@@ -48,8 +48,7 @@ public class MongoDB
                     foreach (var document in input.Filters)
                         count += await DeleteOperation(input, BsonDocument.Parse(document.Value), collection, cancellationToken);
                     return new Result(true, count);
-
-                default: 
+                default:
                     return new Result(false, 0);
             };
         }

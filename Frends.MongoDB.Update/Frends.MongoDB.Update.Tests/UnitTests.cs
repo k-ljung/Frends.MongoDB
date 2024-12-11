@@ -14,8 +14,8 @@ public class UnitTests
 
     private static readonly Connection _connection = new()
     {
-        ConnectionString = "mongodb://admin:Salakala@localhost:27017/?authSource=admin",
-        Database = "testdb",
+		ConnectionString = "mongodb://admin:Salakala@localhost:27017/?authSource=admin",
+		Database = "testdb",
         CollectionName = "testcoll",
     };
 
@@ -199,7 +199,47 @@ public class UnitTests
         Assert.IsTrue(ex.Result.Message.StartsWith("Update error: System.Exception: UpdateOperation error: MongoDB.Driver.MongoAuthenticationException: Unable to authenticate using sasl protocol mechanism SCRAM-SHA-1."));
     }
 
-    private void InsertTestData()
+	[TestMethod]
+	public async Task Test_Upsert_Create_Document()
+	{
+		var _input = new Input()
+		{
+			InputType = InputType.Filter,
+			UpdateOptions = Definitions.UpdateOptions.UpdateOne,
+			Filter = "{'foobar':'new'}",
+			Filters = null,
+			File = null,
+			UpdateString = "{$set: {foobar:'upsert_create'}}",
+			Upsert = true
+		};
+
+		var result = await MongoDB.Update(_input, _connection, default);
+		Assert.IsTrue(result.Success);
+		Assert.AreEqual(0, result.Count);
+		Assert.IsTrue(GetDocuments("upsert_create"));
+	}
+
+	[TestMethod]
+	public async Task Test_Upsert_Dont_Create_Document()
+	{
+		var _input = new Input()
+		{
+			InputType = InputType.Filter,
+			UpdateOptions = Definitions.UpdateOptions.UpdateOne,
+			Filter = "{'foobar':'new'}",
+			Filters = null,
+			File = null,
+			UpdateString = "{$set: {foo:'upsert_none'}}",
+			Upsert = false
+		};
+
+		var result = await MongoDB.Update(_input, _connection, default);
+		Assert.IsTrue(result.Success);
+		Assert.AreEqual(0, result.Count);
+		Assert.IsFalse(GetDocuments("upsert_none"));
+	}
+
+	private void InsertTestData()
     {
         try
         {
@@ -225,10 +265,12 @@ public class UnitTests
         var filter1 = "{'bar':'foo'}";
         var filter2 = "{'qwe':'rty'}";
         var filter3 = "{'asd':'fgh'}";
-        collection.DeleteMany(filter1);
+		var filter4 = "{'foobar':'upsert_create'}";
+		collection.DeleteMany(filter1);
         collection.DeleteMany(filter2);
         collection.DeleteMany(filter3);
-    }
+		collection.DeleteMany(filter4);
+	}
 
     private static IMongoCollection<BsonDocument> GetMongoCollection(string connectionString, string database, string collectionName)
     {

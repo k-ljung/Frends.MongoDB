@@ -12,8 +12,8 @@ public class UnitTests
 
     private static readonly Connection _connection = new()
     {
-        ConnectionString = "mongodb://admin:Salakala@localhost:27017/?authSource=admin",
-        Database = "testdb",
+		ConnectionString = "mongodb://admin:Salakala@localhost:27017/?authSource=admin",
+		Database = "testdb",
         CollectionName = "testcoll",
     };
 

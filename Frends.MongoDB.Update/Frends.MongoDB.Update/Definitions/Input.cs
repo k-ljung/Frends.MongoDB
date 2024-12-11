@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Text.RegularExpressions;
 
 namespace Frends.MongoDB.Update.Definitions;
 
@@ -48,6 +49,12 @@ public class Input
     /// <example>c:\temp\file.json</example>
     [UIHint(nameof(InputType), "", InputType.File)]
     public string File { get; set; }
+
+	/// <summary>
+	/// Specifies whether the update operation performs an
+	/// upsert operation if no documents match the query filter.
+	/// </summary>
+	public bool Upsert { get; set; } = false;
 }
 
 /// <summary>

@@ -14,8 +14,8 @@ public class UnitTests
 
     private static readonly Connection _connection = new()
     {
-        ConnectionString = "mongodb://admin:Salakala@localhost:27017/?authSource=admin",
-        Database = "testdb",
+		ConnectionString = "mongodb://admin:Salakala@localhost:27017/?authSource=admin",
+		Database = "testdb",
         CollectionName = "testcoll",
     };
 
@@ -37,53 +37,81 @@ public class UnitTests
     }
 
     [TestMethod]
-    public void Test_Query_TwoResults()
+    public async Task Test_Query_TwoResults()
     {
         var _input = new Input()
         {
             Filter = "{'foo':'bar'}"
         };
 
-        var result = MongoDB.Query(_input, _connection, default);
+        var result = await MongoDB.Query(_input, _connection, default);
         Assert.IsTrue(result.Success);
         Assert.AreEqual(2, result.Data.Count);
     }
 
     [TestMethod]
-    public void Test_Query_OneResults()
+    public async Task Test_Query_OneResults()
     {
         var _input = new Input()
         {
             Filter = "{'qwe':'rty'}"
         };
 
-        var result = MongoDB.Query(_input, _connection, default);
+        var result =await  MongoDB.Query(_input, _connection, default);
         Assert.IsTrue(result.Success);
         Assert.AreEqual(1, result.Data.Count);
     }
 
-    [TestMethod]
-    public void Test_Query_NotFoundFilter()
+	[TestMethod]
+	public async Task Test_Query_QueryOne_Options()
+	{
+		var _input = new Input()
+		{
+			Filter = "{'foo':'bar'}",
+			QueryOptions = QueryOptions.QueryOne
+		};
+
+		var result = await MongoDB.Query(_input, _connection, default);
+		Assert.IsTrue(result.Success);
+		Assert.AreEqual(1, result.Data.Count);
+	}
+
+	[TestMethod]
+	public async Task Test_Query_QuerMany_Options()
+	{
+		var _input = new Input()
+		{
+			Filter = "{'foo':'bar'}",
+			QueryOptions = QueryOptions.QueryMany
+		};
+
+		var result = await MongoDB.Query(_input, _connection, default);
+		Assert.IsTrue(result.Success);
+		Assert.AreEqual(2, result.Data.Count);
+	}
+
+	[TestMethod]
+    public async Task Test_Query_NotFoundFilter()
     {
         var _input = new Input()
         {
             Filter = "{'not':'found'}",
         };
 
-        var result = MongoDB.Query(_input, _connection, default);
+        var result = await MongoDB.Query(_input, _connection, default);
         Assert.IsTrue(result.Success);
         Assert.AreEqual(0, result.Data.Count);
     }
 
     [TestMethod]
-    public void Test_EmptyQuery()
+    public async Task Test_EmptyQuery()
     {
-        var ex = Assert.ThrowsException<Exception>(() => MongoDB.Query(new Input { Filter = "" }, _connection, default));
+		var ex = await Assert.ThrowsExceptionAsync<Exception>(async () => await MongoDB.Query(new Input { Filter = "" }, _connection, default));
         Assert.AreEqual("Query error: Filter can't be null.", ex.Message);
     }
 
     [TestMethod]
-    public void Test_InvalidConnectionString()
+    public async Task Test_InvalidConnectionString()
     {
         var input = new Input()
         {
@@ -92,12 +120,12 @@ public class UnitTests
 
         var connection = new Connection
         {
-            ConnectionString = "mongodb://admin:Incorrect@localhost:27017/?authSource=invalid",
+            ConnectionString = "mongodb://admin:Salakala@192.168.10.113:27017/?authSource=?authSource=invalid",
             CollectionName = _connection.CollectionName,
             Database = _connection.Database,
         };
 
-        var ex = Assert.ThrowsException<Exception>(() => MongoDB.Query(input, connection, default));
+        var ex = await Assert.ThrowsExceptionAsync<Exception>(async () => await MongoDB.Query(input, connection, default));
         Assert.IsTrue(ex.Message.StartsWith("Query error: MongoDB.Driver.MongoAuthenticationException: Unable to authenticate using sasl protocol mechanism SCRAM-SHA-1."));
     }
 

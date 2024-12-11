@@ -6,6 +6,7 @@ using MongoDB.Bson;
 using MongoDB.Driver;
 using System.IO;
 using System.Threading.Tasks;
+using UpdateOptions = MongoDB.Driver.UpdateOptions;
 
 namespace Frends.MongoDB.Update;
 
@@ -67,14 +68,18 @@ public class MongoDB
         try
         {
             UpdateDefinition<BsonDocument> update = input.UpdateString;
+			var options = new UpdateOptions
+			{
+				IsUpsert = input.Upsert
+			};
 
-            switch (input.UpdateOptions)
+			switch (input.UpdateOptions)
             {
                 case Definitions.UpdateOptions.UpdateOne:
-                    var updateOne = await collection.UpdateOneAsync(filter, update, cancellationToken: cancellationToken);
+                    var updateOne = await collection.UpdateOneAsync(filter, update, options, cancellationToken: cancellationToken);
                     return updateOne.ModifiedCount;
                 case Definitions.UpdateOptions.UpdateMany:
-                    var updateMany = await collection.UpdateManyAsync(filter, update, cancellationToken: cancellationToken);
+                    var updateMany = await collection.UpdateManyAsync(filter, update, options, cancellationToken: cancellationToken);
                     return updateMany.ModifiedCount;
                 default:
                     return 0;

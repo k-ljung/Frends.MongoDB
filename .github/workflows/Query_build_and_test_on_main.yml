@@ -2,7 +2,7 @@ name: Query build main
 
 on:
   push:
-    branches:    
+    branches:
       - master
     paths:
       - 'Frends.MongoDB.Query/**'

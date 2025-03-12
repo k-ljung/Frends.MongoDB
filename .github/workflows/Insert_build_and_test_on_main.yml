@@ -2,7 +2,7 @@ name: Insert build main
 
 on:
   push:
-    branches:    
+    branches:
       - master
     paths:
       - 'Frends.MongoDB.Insert/**'

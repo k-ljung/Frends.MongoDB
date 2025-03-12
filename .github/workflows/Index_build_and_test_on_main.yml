@@ -1,8 +1,8 @@
-name: Delete build main
+name: Index build main
 
 on:
   push:
-    branches:    
+    branches:
       - master
     paths:
       - 'Frends.MongoDB.Index/**'

@@ -44,7 +44,7 @@ public class UnitTests
 	}
 
 	[TestMethod]
-	public async Task TestMulti_Field_Index_Generate_Name()
+	public async Task Test_Multi_Field_Index_Generate_Name()
 	{
 		var _input = new Input()
 		{
@@ -82,7 +82,7 @@ public class UnitTests
 	}
 
 	[TestMethod]
-	public async Task Test_Try_Create_Index_Whitout_Fields()
+	public async Task Test_Try_Create_Index_Without_Fields()
 	{
 		var _input = new Input()
 		{
@@ -91,7 +91,7 @@ public class UnitTests
 			DropExistingIndex = false
 		};
 
-		var ex = await Assert.ThrowsExceptionAsync<Exception>(async () => await MongoDB.Index(_input, _connection, default));
+		var ex = await Assert.ThrowsExceptionAsync<ArgumentException>(async () => await MongoDB.Index(_input, _connection, default));
 		Assert.IsTrue(ex.Message.StartsWith("Index error: System.ArgumentException: Field name(s) missing."));
 	}
 
@@ -105,7 +105,6 @@ public class UnitTests
 			{
 					new() { Value = "existing" }
 			},
-			//IndexName = "existing",
 			DropExistingIndex = false
 		};
 
@@ -126,7 +125,6 @@ public class UnitTests
 		var ex = await Assert.ThrowsExceptionAsync<Exception>(async () => await MongoDB.Index(_input, _connection, default));
 		Assert.IsTrue(ex.Message.StartsWith("Index error: MongoDB.Driver.MongoCommandException: Command createIndexes failed: Index already exists with a different name: existing_1."));
 	}
-
 
 	[TestMethod]
 	public async Task Test_Drop_Index_And_Create_With_Same_Name()
@@ -207,13 +205,5 @@ public class UnitTests
         var mongoClient = new MongoClient(connectionString);
         var dataBase = mongoClient.GetDatabase(database);
         return dataBase;
-    }
-
-    private static bool GetDocuments(string updated)
-    {
-        var collection = GetMongoCollection(_connection.ConnectionString, _connection.Database, _connection.CollectionName);
-        var documents = collection.Find(new BsonDocument()).ToList();
-        var i = documents.Any(x => x.Values.Contains(updated));
-        return i;
     }
 }

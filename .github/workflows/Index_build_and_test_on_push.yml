@@ -1,8 +1,8 @@
-name: Delete build test
+name: Index build test
 
 on:
   push:
-    branches-ignore: 
+    branches-ignore:
       - master
     paths:
       - 'Frends.MongoDB.Index/**'

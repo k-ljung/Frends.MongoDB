@@ -10,7 +10,7 @@ public class Input
 	/// <summary>
 	/// Query single or multiple documents.
 	/// </summary>
-	/// <example>DeleteOptions.DeleteOne</example>
+	/// <example>QueryOptions.QueryMany</example>
 	[DefaultValue(QueryOptions.QueryMany)]
 	public QueryOptions QueryOptions { get; set; }
 

@@ -5,11 +5,11 @@
 /// </summary>
 public class Result
 {
-    /// <summary>
-    /// Update complete.
-    /// </summary>
-    /// <example>true</example>
-    public bool Success { get; private set; }
+	/// <summary>
+	/// Operation completed successfully.
+	/// </summary>
+	/// <example>true</example>
+	public bool Success { get; private set; }
 
     /// <summary>
     /// Name of the created index.

@@ -2,7 +2,7 @@ name: Delete build main
 
 on:
   push:
-    branches:    
+    branches:
       - master
     paths:
       - 'Frends.MongoDB.Delete/**'

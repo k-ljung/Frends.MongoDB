@@ -8,7 +8,7 @@ Frends Task for MongoDB index operations.
 
 # Installing
 
-You can install the Task via Frends UI Task View or you can find the NuGet package from the following NuGet feed https://www.myget.org/F/frends-tasks/api/v2.
+You can install the Task via Frends UI Task View or you can find the NuGet package from the following NuGet feed [NuGet Package](https://www.myget.org/F/frends-tasks/api/v2)
 
 ## Building
 

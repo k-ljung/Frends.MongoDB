@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace Frends.MongoDB.Index.Definitions;
 
@@ -14,11 +15,11 @@ public class Connection
     [PasswordPropertyText]
     public string ConnectionString { get; set; }
 
-    /// <summary>
-    /// Database.
-    /// </summary>
-    /// <example>foo</example>
-    public string Database { get; set; }
+	/// <summary>
+	/// Database.
+	/// </summary>
+	/// <example>foo</example>
+	public string Database { get; set; }
 
     /// <summary>
     /// Collection name.

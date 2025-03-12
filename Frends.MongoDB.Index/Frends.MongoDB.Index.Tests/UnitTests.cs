@@ -9,7 +9,7 @@ namespace Frends.MongoDB.Index.Tests;
 public class UnitTests
 {
 	/// <summary>
-	/// Run command 'docker-compose up -d' in \Frends.MongoDB.Update.Tests\Files\
+	/// Run command 'docker-compose up -d' in \Frends.MongoDB.Index.Tests\Files\
 	/// </summary>
 
 	private static readonly Connection _connection = new()
@@ -110,7 +110,6 @@ public class UnitTests
 
 		await MongoDB.Index(_input, _connection, default);
 
-
 		_input = new Input()
 		{
 			IndexAction = IndexAction.Create,
@@ -141,7 +140,6 @@ public class UnitTests
 		};
 
 		await MongoDB.Index(_input, _connection, default);
-
 
 		_input = new Input()
 		{

@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Frends.MongoDB.Update.Tests": {
+      "commandName": "Project",
+		"environmentVariables": {
+			"MONGODB_TEST_CONNECTION_STRING": "mongodb://admin:Salakala@192.168.10.113:27017/?authSource=admin"
+		}
+    }
+  }
+}

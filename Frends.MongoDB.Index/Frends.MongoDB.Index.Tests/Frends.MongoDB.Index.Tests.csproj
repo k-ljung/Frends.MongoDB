@@ -18,9 +18,8 @@
     </PackageReference>
   </ItemGroup>
 
-
   <ItemGroup>
-    <ProjectReference Include="..\Frends.MongoDB.Query\Frends.MongoDB.Query.csproj" />
+    <ProjectReference Include="..\Frends.MongoDB.Index\Frends.MongoDB.Index.csproj" />
   </ItemGroup>
 
 </Project>

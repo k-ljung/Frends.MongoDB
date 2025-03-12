@@ -14,3 +14,24 @@ public enum QueryOptions
 	/// </summary>
 	QueryMany,
 }
+
+/// <summary>
+/// Represents the output mode of a JsonWriter.
+/// </summary>
+public enum JsonOutputMode
+{
+	/// <summary>
+	/// Use a format that can be pasted in to the MongoDB shell.
+	/// </summary>
+	Shell,
+
+	/// <summary>
+	/// Output canonical extended JSON.
+	/// </summary>
+	CanonicalExtendedJson,
+
+	/// <summary>
+	/// Output relaxed extended JSON.
+	/// </summary>
+	RelaxedExtendedJson,
+}

@@ -8,23 +8,26 @@ namespace Frends.MongoDB.Update.Tests;
 [TestClass]
 public class UnitTests
 {
-    /// <summary>
-    /// Run command 'docker-compose up -d' in \Frends.MongoDB.Update.Tests\Files\
-    /// </summary>
+	/// <summary>
+	/// Run command 'docker-compose up -d' in \Frends.MongoDB.Update.Tests\Files\
+	/// </summary>
 
-    private static readonly Connection _connection = new()
-    {
+	private static readonly Connection _connection = new()
+	{
 		ConnectionString = "mongodb://admin:Salakala@localhost:27017/?authSource=admin",
 		Database = "testdb",
-        CollectionName = "testcoll",
-    };
+		CollectionName = "testcoll",
+	};
 
-    private readonly string _doc1 = "{ 'foo':'bar', 'bar': 'foo' }";
-    private readonly string _doc2 = "{ 'foo':'bar', 'bar': 'foo' }";
-    private readonly string _doc3 = "{ 'qwe':'rty', 'asd': 'fgh' }";
+	private readonly List<string> _documents = new() 
+	{
+		"{ 'foo':'bar', 'bar': 'foo' }",
+		"{ 'foo':'bar', 'bar': 'foo' }",
+		"{ 'qwe':'rty', 'asd': 'fgh' }",
+		"{ 'array':'arr', 'children': [{'child':1, 'value': 'val1' }, {'child':2, 'value': 'val2' }] }"
+	};
 
-
-    [TestInitialize]
+	[TestInitialize]
     public void StartUp()
     {
         InsertTestData();
@@ -33,10 +36,10 @@ public class UnitTests
     [TestCleanup]
     public void CleanUp()
     {
-        UpdateTestData();
-    }
+		DeleteTestData();
+	}
 
-    [TestMethod]
+	[TestMethod]
     public async Task Test_Update_NotFound()
     {
         var _input = new Input()
@@ -62,10 +65,11 @@ public class UnitTests
         {
             InputType = InputType.Filter,
             UpdateOptions = Definitions.UpdateOptions.UpdateOne,
-            Filter = "{'foo':'bar'}",
-            Filters = null,
+			Filter = "{'foo':'bar'}",
+			Filters = null,
             File = null,
-            UpdateString = "{$set: {foo:'update'}}"
+            UpdateString = "{$set: {foo:'update'}}",
+			Upsert = true
         };
 
         var result = await MongoDB.Update(_input, _connection, default);
@@ -84,8 +88,9 @@ public class UnitTests
             Filter = "{'foo':'bar'}",
             Filters = null,
             File = null,
-            UpdateString = "{$set: {foo:'update'}}"
-        };
+            UpdateString = "{$set: {foo:'update'}}",
+			Upsert = true
+		};
 
         var result = await MongoDB.Update(_input, _connection, default);
         Assert.IsTrue(result.Success);
@@ -190,7 +195,7 @@ public class UnitTests
 
         var connection = new Connection
         {
-            ConnectionString = "mongodb://admin:Incorrect@localhost:27017/?authSource=invalid",
+            ConnectionString = "mongodb://admin:Incorrect@192.168.10.113:27017/?authSource=invalid",
             CollectionName = _connection.CollectionName,
             Database = _connection.Database,
         };
@@ -206,7 +211,7 @@ public class UnitTests
 		{
 			InputType = InputType.Filter,
 			UpdateOptions = Definitions.UpdateOptions.UpdateOne,
-			Filter = "{'foobar':'new'}",
+			Filter = "{'foobar':'upsert_create'}",
 			Filters = null,
 			File = null,
 			UpdateString = "{$set: {foobar:'upsert_create'}}",
@@ -215,7 +220,7 @@ public class UnitTests
 
 		var result = await MongoDB.Update(_input, _connection, default);
 		Assert.IsTrue(result.Success);
-		Assert.AreEqual(0, result.Count);
+		Assert.AreEqual(1, result.Count);
 		Assert.IsTrue(GetDocuments("upsert_create"));
 	}
 
@@ -226,7 +231,7 @@ public class UnitTests
 		{
 			InputType = InputType.Filter,
 			UpdateOptions = Definitions.UpdateOptions.UpdateOne,
-			Filter = "{'foobar':'new'}",
+			Filter = "{'foobar':'upsert_none'}",
 			Filters = null,
 			File = null,
 			UpdateString = "{$set: {foo:'upsert_none'}}",
@@ -239,37 +244,103 @@ public class UnitTests
 		Assert.IsFalse(GetDocuments("upsert_none"));
 	}
 
+	[TestMethod]
+	public void Test_Failing_When_No_Filter()
+	{
+		var _input = new Input()
+		{
+			InputType = InputType.Filter,
+			UpdateOptions = Definitions.UpdateOptions.UpdateMany,
+			Filter = "",
+			Filters = null,
+			File = null,
+			UpdateString = "{$set: {foo:'update'}}",
+			Upsert = true
+		};
+
+		var ex = Assert.ThrowsExceptionAsync<Exception>(async () => await MongoDB.Update(_input, _connection, default));
+		Assert.IsTrue(ex.Result.Message.StartsWith("Update error: System.ArgumentException: Filter string missing."));
+	}
+
+	[TestMethod]
+	public async Task Test_Update_Item_In_Child_Array()
+	{
+		var _input = new Input()
+		{
+			InputType = InputType.Filter,
+			UpdateOptions = Definitions.UpdateOptions.UpdateOne,
+			Filter = "{'array':'arr'}",
+			Filters = null,
+			File = null,
+			UpdateString = "{$set: {'children.$[i].value': 'new_value'}}",
+			ArrayFilter = "{'i.child': 1, 'i.value': 'val1'}",
+			Upsert = false
+		};
+
+		var result = await MongoDB.Update(_input, _connection, default);
+		Assert.IsTrue(result.Success);
+		Assert.AreEqual(1, result.Count);
+
+		var document = GetSingleDocuments(_input.Filter);
+		Assert.IsNotNull(document);
+		Assert.AreEqual("new_value", document["children"].AsBsonArray[0]["value"].AsString);
+	}
+
+	[TestMethod]
+	public async Task Test_Dont_Update_Item_In_Child_Array()
+	{
+		var _input = new Input()
+		{
+			InputType = InputType.Filter,
+			UpdateOptions = Definitions.UpdateOptions.UpdateOne,
+			Filter = "{'array':'arr'}",
+			Filters = null,
+			File = null,
+			UpdateString = "{$set: {'children.$[i].value': 'new_value'}}",
+			ArrayFilter = "{'i.child': 1, 'i.value': 'val2'}",
+			Upsert = false
+		};
+
+		var result = await MongoDB.Update(_input, _connection, default);
+		Assert.IsTrue(result.Success);
+		Assert.AreEqual(0, result.Count);
+	}
+
 	private void InsertTestData()
     {
         try
         {
             var collection = GetMongoCollection(_connection.ConnectionString, _connection.Database, _connection.CollectionName);
 
-            var doc1 = BsonDocument.Parse(_doc1);
-            var doc2 = BsonDocument.Parse(_doc2);
-            var doc3 = BsonDocument.Parse(_doc3);
-
-            collection.InsertOne(doc1);
-            collection.InsertOne(doc2);
-            collection.InsertOne(doc3);
-        }
+			foreach (var doc in _documents)
+			{
+				collection.InsertOne(BsonDocument.Parse(doc));
+			}
+		}
         catch (Exception ex)
         {
             throw new Exception(ex.Message);
         }
     }
-    private static void UpdateTestData()
+
+    private static void DeleteTestData()
     {
         var collection = GetMongoCollection(_connection.ConnectionString, _connection.Database, _connection.CollectionName);
 
-        var filter1 = "{'bar':'foo'}";
-        var filter2 = "{'qwe':'rty'}";
-        var filter3 = "{'asd':'fgh'}";
-		var filter4 = "{'foobar':'upsert_create'}";
-		collection.DeleteMany(filter1);
-        collection.DeleteMany(filter2);
-        collection.DeleteMany(filter3);
-		collection.DeleteMany(filter4);
+		List<string> filters = new() 
+		{
+			"{'bar':'foo'}",
+			"{'qwe':'rty'}",
+			"{'asd':'fgh'}",
+			"{foo:'update'}",
+			"{'foobar':'upsert_create'}",
+			"{'array':'arr'}"
+		};
+
+		foreach (var filter in filters)
+		{
+			collection.DeleteMany(filter);
+		}
 	}
 
     private static IMongoCollection<BsonDocument> GetMongoCollection(string connectionString, string database, string collectionName)
@@ -293,4 +364,10 @@ public class UnitTests
         var i = documents.Any(x => x.Values.Contains(updated));
         return i;
     }
+
+	private static BsonDocument? GetSingleDocuments(string filter)
+	{
+		var collection = GetMongoCollection(_connection.ConnectionString, _connection.Database, _connection.CollectionName);
+		return collection.Find(BsonDocument.Parse(filter)).FirstOrDefault();
+	}
 }

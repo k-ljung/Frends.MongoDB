@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35707.178
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Frends.MongoDB.Index", "Frends.MongoDB.Index\Frends.MongoDB.Index.csproj", "{8FB64BB3-C91A-4829-B212-2C967E6830AB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Frends.MongoDB.Index.Tests", "Frends.MongoDB.Index.Tests\Frends.MongoDB.Index.Tests.csproj", "{03BB9C11-A8A1-4E29-A012-F6CC9C862337}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8779CBED-E6FB-4F23-99E2-C6AAC2A85505}"
+	ProjectSection(SolutionItems) = preProject
+		CHANGELOG.md = CHANGELOG.md
+		..\.github\workflows\Index_build_and_test_on_main.yml = ..\.github\workflows\Index_build_and_test_on_main.yml
+		..\.github\workflows\Index_build_and_test_on_push.yml = ..\.github\workflows\Index_build_and_test_on_push.yml
+		..\.github\workflows\Index_release.yml = ..\.github\workflows\Index_release.yml
+		README.md = README.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8FB64BB3-C91A-4829-B212-2C967E6830AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8FB64BB3-C91A-4829-B212-2C967E6830AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8FB64BB3-C91A-4829-B212-2C967E6830AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8FB64BB3-C91A-4829-B212-2C967E6830AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03BB9C11-A8A1-4E29-A012-F6CC9C862337}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03BB9C11-A8A1-4E29-A012-F6CC9C862337}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03BB9C11-A8A1-4E29-A012-F6CC9C862337}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03BB9C11-A8A1-4E29-A012-F6CC9C862337}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

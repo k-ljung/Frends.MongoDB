@@ -8,21 +8,23 @@ namespace Frends.MongoDB.Delete.Tests;
 [TestClass]
 public class UnitTests
 {
-    /// <summary>
-    /// Run command 'docker-compose up -d' in \Frends.MongoDB.Delete.Tests\Files\
-    /// </summary>
+	/// <summary>
+	/// Run command 'docker-compose up -d' in \Frends.MongoDB.Delete.Tests\Files\
+	/// </summary>
 
-    private static readonly Connection _connection = new()
-    {
-        ConnectionString = "mongodb://admin:Salakala@localhost:27017/?authSource=admin",
-        Database = "testdb",
-        CollectionName = "testcoll",
-    };
+	private static readonly Connection _connection = new()
+	{
+		ConnectionString = "mongodb://admin:Salakala@localhost:27017/?authSource=admin",
+		Database = "testdb",
+		CollectionName = "testcoll",
+	};
 
-    private readonly string _doc1 = "{ \"foo\":\"bar\", \"bar\": \"foo\" }";
-    private readonly string _doc2 = "{ \"foo\":\"bar\", \"bar\": \"foo\" }";
-    private readonly string _doc3 = "{ \"qwe\":\"rty\", \"asd\": \"fgh\" }";
-
+	private readonly List<string> _documents = new()
+	{
+		"{ 'foo':'bar', 'bar': 'foo' }",
+		"{ 'foo':'bar', 'bar': 'foo' }",
+		"{ 'qwe':'rty', 'asd': 'fgh' }"
+	};
 
     [TestInitialize]
     public void StartUp()
@@ -184,38 +186,45 @@ public class UnitTests
         Assert.IsTrue(ex.Result.Message.StartsWith("Delete error: System.Exception: DeleteOperation error: MongoDB.Driver.MongoAuthenticationException: Unable to authenticate using sasl protocol mechanism SCRAM-SHA-1."));
     }
 
-    private void InsertTestData()
-    {
-        try
-        {
-            var collection = GetMongoCollection(_connection.ConnectionString, _connection.Database, _connection.CollectionName);
+	private void InsertTestData()
+	{
+		try
+		{
+			var collection = GetMongoCollection(_connection.ConnectionString, _connection.Database, _connection.CollectionName);
 
-            var doc1 = BsonDocument.Parse(_doc1);
-            var doc2 = BsonDocument.Parse(_doc2);
-            var doc3 = BsonDocument.Parse(_doc3);
+			foreach (var doc in _documents)
+			{
+				collection.InsertOne(BsonDocument.Parse(doc));
+			}
+		}
+		catch (Exception ex)
+		{
+			throw new Exception(ex.Message);
+		}
+	}
 
-            collection.InsertOne(doc1);
-            collection.InsertOne(doc2);
-            collection.InsertOne(doc3);
-        }
-        catch (Exception ex)
-        {
-            throw new Exception(ex.Message);
-        }
-    }
-    private static void DeleteTestData()
-    {
-        var collection = GetMongoCollection(_connection.ConnectionString, _connection.Database, _connection.CollectionName);
+	private static void DeleteTestData()
+	{
+		var collection = GetMongoCollection(_connection.ConnectionString, _connection.Database, _connection.CollectionName);
 
-        var filter1 = "{'bar':'foo'}";
-        var filter2 = "{'qwe':'rty'}";
-        var filter3 = "{'asd':'fgh'}";
-        collection.DeleteMany(filter1);
-        collection.DeleteMany(filter2);
-        collection.DeleteMany(filter3);
-    }
+		List<string> filters = new()
+		{
+			"{'bar':'foo'}",
+			"{'qwe':'rty'}",
+			"{'asd':'fgh'}",
+			"{foo:'update'}",
+			"{'foobar':'upsert_create'}",
+			"{'array':'arr'}"
+		};
 
-    private static IMongoCollection<BsonDocument> GetMongoCollection(string connectionString, string database, string collectionName)
+		foreach (var filter in filters)
+		{
+			collection.DeleteMany(filter);
+		}
+	}
+
+
+	private static IMongoCollection<BsonDocument> GetMongoCollection(string connectionString, string database, string collectionName)
     {
         var dataBase = GetMongoDatabase(connectionString, database);
         var collection = dataBase.GetCollection<BsonDocument>(collectionName);

@@ -1,6 +1,7 @@
-﻿services:
+﻿version: '3'
+services:
   mongo:
-    image: mongo:4
+    image: mongo:7
     environment:
       - AUTH=yes
       - MONGO_INITDB_ROOT_USERNAME=admin

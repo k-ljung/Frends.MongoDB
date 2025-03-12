@@ -91,7 +91,7 @@ public class UnitTests
 			DropExistingIndex = false
 		};
 
-		var ex = await Assert.ThrowsExceptionAsync<ArgumentException>(async () => await MongoDB.Index(_input, _connection, default));
+		var ex = await Assert.ThrowsExceptionAsync<Exception>(async () => await MongoDB.Index(_input, _connection, default));
 		Assert.IsTrue(ex.Message.StartsWith("Index error: System.ArgumentException: Field name(s) missing."));
 	}
 

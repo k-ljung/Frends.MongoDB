@@ -195,8 +195,8 @@ public class UnitTests
 
         var connection = new Connection
         {
-            ConnectionString = "mongodb://admin:Incorrect@192.168.10.113:27017/?authSource=invalid",
-            CollectionName = _connection.CollectionName,
+			ConnectionString = "mongodb://admin:Incorrect@localhost:27017/?authSource=invalid",
+			CollectionName = _connection.CollectionName,
             Database = _connection.Database,
         };
 
